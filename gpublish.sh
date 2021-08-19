@@ -1,6 +1,6 @@
 #!/bin/bash
 export VPROJECT="/mnt/500GB/source1"
-export usage="Bad usage. Maybe you haven't a correct structure.
+usage="Bad usage. Maybe you haven't a correct structure.
 
 - 1xcompiled should have your '$1' folder
 
@@ -13,44 +13,45 @@ cd $VPROJECT
 
 # check if we write the folder name and if this folder really exist
 if [[ ! -z $1 && -d $VPROJECT/1xcompiled/$1 ]]; then
-  id="$VPROJECT/1xcompiled/$1/id.txt" # parse check if the addon already exist. you need to manually create for each already existent addon
-  workshopid=$( cat "$VPROJECT/1xcompiled/$1/id.txt" ) # where is stored the addon id for push updates
-  addon="$VPROJECT/2xgma/$1.gma" # our .gma file to write/push
-  icon="$VPROJECT/1xcompiled/$1/addon.jpg" # icon, Steam workshop require a 1:1 .jpg file
+  addon="$VPROJECT/2xgma/$1.gma"
+  icon="$VPROJECT/1xcompiled/$1/addon.jpg"
 
-# we always create a new gma
+# always create a new gma
   if [ -f $VPROJECT/1xcompiled/$1/addon.json ]; then
 
-json=$( cat "$VPROJECT/1xcompiled/$1/addon.json" )
+    id="$VPROJECT/1xcompiled/$1/addon.json"
+    workshopid=$( cat $id | jq '.workshopid' )
+    json=$( cat "$VPROJECT/1xcompiled/$1/addon.json" )
 
-echo "
-json:
-$json
-"
+# print json table
+echo $json
 
+# now create our gma file
 gmad create -folder $VPROJECT/1xcompiled/$1 -out $VPROJECT/2xgma/$1.gma
-echo "done"
 
 else
   echo "addon.json file not found"
   exit 0
 fi
 
+# exit if no .gma was created
+if [ ! -f $addon ] then
+  echo "$addon not found."
+  exit 0
 
-if [[ ! -f $id && -f $icon && -f $addon ]]; then
+elif [[ -f $icon && ! -z $workshopid || $workshopid = 0 ]]; then
 
-echo "We'll create a new gma file and publish
+echo "We'll publish a new addon
   Icon path: $icon
   Addon path: $addon"
 
 # publish
 gmpublish create -icon $icon -addon $addon
-echo "done"
 
 
-elif [[ -f $id && -f $icon && -f $addon ]]; then
+elif [[ ! -z $workshopid && ! $workshopid = 0 && -f $icon ]]; then
 
-echo "We'll update a addon and icon
+echo "We'll update a addon and their icon
   Workshop ID: $workshopid
   Icon path: $icon
   Addon path: $addon"
@@ -59,7 +60,7 @@ echo "We'll update a addon and icon
 gmpublish update -id $workshopid -addon $addon -icon $icon
 
 
-elif [[ -f $id && -f $addon ]]; then
+elif [[ ! -z $workshopid && ! $workshopid = 0 ]]; then
   echo "We'll just update a addon:
   Workshop ID: $workshopid
   at $addon"
@@ -69,10 +70,10 @@ gmpublish update -id $workshopid -addon $addon
 
 
 else
-# You fucked something, your dumb
+# Something is wrong
   echo "$usage"
 fi
 else
-# You really did something very very wrong, your stupid
+# You really did something very very wrong
   echo "$usage"
 fi
