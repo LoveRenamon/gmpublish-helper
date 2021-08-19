@@ -13,12 +13,12 @@ cd $VPROJECT
 
 # check if we write the folder name and if this folder really exist
 if [[ ! -z $1 && -d $VPROJECT/1xcompiled/$1 ]]; then
-  id="$VPROJECT/1xcompiled/$1/id"
-  workshopid=$( cat "$VPROJECT/1xcompiled/$1/id" )
-  addon="$VPROJECT/2xgma/$1.gma"
-  icon="$VPROJECT/1xcompiled/$1/addon.jpg"
+  id="$VPROJECT/1xcompiled/$1/id.txt" # parse check if the addon already exist. you need to manually create for each already existent addon
+  workshopid=$( cat "$VPROJECT/1xcompiled/$1/id.txt" ) # where is stored the addon id for push updates
+  addon="$VPROJECT/2xgma/$1.gma" # our .gma file to write/push
+  icon="$VPROJECT/1xcompiled/$1/addon.jpg" # icon, Steam workshop require a 1:1 .jpg file
 
-# always create a new gma
+# we always create a new gma
   if [ -f $VPROJECT/1xcompiled/$1/addon.json ]; then
 
 json=$( cat "$VPROJECT/1xcompiled/$1/addon.json" )
