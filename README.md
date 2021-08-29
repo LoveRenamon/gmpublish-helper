@@ -19,9 +19,9 @@ ln -s $HOME/.steam/steam/steamapps/common/GarrysMod/bin/linux64/gmad $HOME/.loca
 export LD_LIBRARY_PATH="$HOME/.steam/steam/steamapps/common/GarrysMod/bin/linux64:$LD_LIBRARY_PATH"
 ``` 
   - Edit exports and paths as you envirovment need, *(since mostly people have their own different methods)* 
-  - Call the script, with `gpublish.sh <foldername>` to call and parse the **addon.json** and **addon.jpg**. 
-    - If `workshopid` exist inside your **addon.json**, the script will automatically read the id inside and push a upgrade instead. 
+  - Call the script, with `gpublish.sh <foldername>` call **`gmad`**, create the addon and parse the **Workshop ID** and **addon.jpg**. 
+    - If **`id`** file *(without any extension)* exist inside your **addon** folder, the script will automatically read the id inside and push a upgrade instead. 
  
  
 ## Update a existing addon: 
-  just add `"workshopid": <id>` at your addon.json
+  just create a `"id"` file inside your addon folder contain just the Workshop ID
