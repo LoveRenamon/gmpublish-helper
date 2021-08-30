@@ -1,6 +1,5 @@
 #!/bin/bash
 export VPROJECT="/mnt/500GB/source1"
-#!/bin/bash
 usage="Bad usage. Maybe you haven't a correct structure.
 
 - 1xcompiled should have your '$1' folder
