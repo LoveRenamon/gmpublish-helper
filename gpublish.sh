@@ -1,11 +1,14 @@
 #!/bin/bash
 export VPROJECT="/mnt/500GB/source1"
+export VPROJECT1="$VPROJECT/1xcompiled"
+export GMA="$VPROJECT/2xgma"
+
 usage="Bad usage. Maybe you haven't a correct structure.
 
 - 1xcompiled should have your '$1' folder
 
-- 1xcompiled/$1/addon.json should have your 'workshopid' for push addon updates
-- 2xgma should have your '$1.gma' file for push updates
+- $VPROJECT1/$1/addon.json should have your 'workshopid' for push addon updates
+- $GMA should have your '$1.gma' file for push updates
 
 command usage: gpublish <folder>"
 
